@@ -46,6 +46,13 @@ const itemVariants = {
 
 const projects = [
   {
+    title: 'Lastara Jewellery',
+    description: 'Freelance MERN project for a jewelry brand with product catalog, admin controls, and secure checkout.',
+    tags: ['MongoDB', 'Express', 'React', 'Node.js', 'Freelance'],
+    icon: ShieldCheck,
+    url: 'https://lastarajewellers.com/'
+  },
+  {
     title: 'TrendyCart',
     description: 'Full-stack eCommerce app with secure auth, checkout flow, and admin features.',
     tags: ['MongoDB', 'Express', 'React', 'Node.js', 'JWT'],
@@ -59,17 +66,97 @@ const projects = [
     icon: Rocket,
     url: 'https://yummyproject-thebugfix1s-projects.vercel.app/'
   },
-  {
-    title: 'Lastara Jewellery',
-    description: 'Freelance MERN project for a jewelry brand with product catalog, admin controls, and secure checkout.',
-    tags: ['MongoDB', 'Express', 'React', 'Node.js', 'Freelance'],
-    icon: ShieldCheck,
-    url: 'https://lastarajewellers.com/'
-  }
 ];
 
 const MotionDiv = motion.div;
 const RESUME_DRIVE_URL = 'https://drive.google.com/file/d/1EIPgbeJ4FFFhNcHbFs1Bz4e81DusOs5A/view?usp=sharing';
+
+const Tag = ({ children, className = '' }) => (
+  <span className={`tag-chip px-3 py-1 text-xs max-sm:px-2 max-sm:text-[11px] ${className}`}>{children}</span>
+);
+
+const StackItem = ({ icon, name, desc }) => (
+  <div className="stack-card flex h-full flex-col items-start gap-2 p-2.5 sm:flex-row sm:items-center sm:gap-3">
+    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-700 bg-slate-900">{icon}</div>
+    <div>
+      <p className="text-sm font-medium text-slate-100">{name}</p>
+      <p className="text-xs text-slate-400">{desc}</p>
+    </div>
+  </div>
+);
+
+const projectCardThemes = [
+  {
+    container: 'from-cyan-900/90 via-slate-900 to-slate-950 border-cyan-300/30',
+    description: 'text-cyan-100/80'
+  },
+  {
+    container: 'from-emerald-900/90 via-slate-900 to-slate-950 border-emerald-300/30',
+    description: 'text-emerald-100/80'
+  },
+  {
+    container: 'from-orange-900/90 via-slate-900 to-slate-950 border-orange-300/30',
+    description: 'text-orange-100/80'
+  }
+];
+
+const ProjectCard = ({ project, index }) => {
+  const Icon = project.icon;
+  const theme = projectCardThemes[index % projectCardThemes.length];
+
+  return (
+    <SpotlightCard
+      className={`project-card col-span-1 border bg-gradient-to-br p-4 max-sm:col-span-2 max-sm:aspect-[4/3] max-sm:p-2.5 sm:p-5 ${theme.container}`}
+      spotlightColor="rgba(125, 211, 252, 0.22)"
+    >
+      <div className="relative z-10 flex h-full flex-col justify-between max-sm:justify-start max-sm:gap-1.5">
+        <div className="mb-3 flex items-start justify-between gap-3 max-sm:mb-1.5">
+          <div>
+            <div className="mb-2 inline-flex rounded-full border border-white/20 bg-white/10 p-2 text-white max-sm:mb-1 max-sm:p-1.5">
+              <Icon size={14} />
+            </div>
+            <h3 className="text-lg font-semibold text-white sm:text-xl max-sm:text-sm">{project.title}</h3>
+            <p className={`project-desc-mobile-clamp mt-1 text-xs ${theme.description} max-sm:text-[11px] max-sm:leading-4 sm:text-sm`}>
+              {project.description}
+            </p>
+          </div>
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-white/20 bg-white/10 p-2 transition hover:bg-white/20 max-sm:p-1.5"
+          >
+            <ArrowUpRight size={16} />
+          </a>
+        </div>
+
+        <div className="flex flex-wrap gap-1 text-xs max-sm:mt-0.5 sm:gap-2">
+          {project.tags.map((tag, tagIndex) => (
+            <Tag key={`${project.title}-${tag}`} className={tagIndex > 2 ? 'hidden sm:inline-flex' : ''}>
+              {tag}
+            </Tag>
+          ))}
+        </div>
+      </div>
+
+      <MotionDiv
+        className="pointer-events-none absolute -bottom-8 -right-8 h-44 w-44 rounded-full bg-white/15 blur-3xl"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.65, 0.4] }}
+        transition={{ duration: 4.5, repeat: Infinity }}
+      />
+    </SpotlightCard>
+  );
+};
+
+const ExperienceItem = ({ role, company, date }) => (
+  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p className="font-medium text-white">{role}</p>
+      <p className="text-sm text-slate-400">{company}</p>
+    </div>
+    <span className="secondary-btn w-fit px-3 py-1 text-xs text-slate-200">{date}</span>
+  </div>
+);
 
 const App = () => {
   return (
@@ -206,92 +293,5 @@ const App = () => {
     </div>
   );
 };
-
-const Tag = ({ children, className = '' }) => (
-  <span className={`tag-chip px-3 py-1 text-xs max-sm:px-2 max-sm:text-[11px] ${className}`}>{children}</span>
-);
-
-const StackItem = ({ icon, name, desc }) => (
-  <div className="stack-card flex h-full flex-col items-start gap-2 p-2.5 sm:flex-row sm:items-center sm:gap-3">
-    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-700 bg-slate-900">{icon}</div>
-    <div>
-      <p className="text-sm font-medium text-slate-100">{name}</p>
-      <p className="text-xs text-slate-400">{desc}</p>
-    </div>
-  </div>
-);
-
-const projectCardThemes = [
-  {
-    container: 'from-cyan-900/90 via-slate-900 to-slate-950 border-cyan-300/30',
-    description: 'text-cyan-100/80'
-  },
-  {
-    container: 'from-emerald-900/90 via-slate-900 to-slate-950 border-emerald-300/30',
-    description: 'text-emerald-100/80'
-  },
-  {
-    container: 'from-orange-900/90 via-slate-900 to-slate-950 border-orange-300/30',
-    description: 'text-orange-100/80'
-  }
-];
-
-const ProjectCard = ({ project, index }) => {
-  const Icon = project.icon;
-  const theme = projectCardThemes[index % projectCardThemes.length];
-
-  return (
-    <SpotlightCard
-      className={`project-card col-span-1 border bg-gradient-to-br p-4 max-sm:col-span-2 max-sm:aspect-[4/3] max-sm:p-2.5 sm:p-5 ${theme.container}`}
-      spotlightColor="rgba(125, 211, 252, 0.22)"
-    >
-      <div className="relative z-10 flex h-full flex-col justify-between max-sm:justify-start max-sm:gap-1.5">
-        <div className="mb-3 flex items-start justify-between gap-3 max-sm:mb-1.5">
-          <div>
-            <div className="mb-2 inline-flex rounded-full border border-white/20 bg-white/10 p-2 text-white max-sm:mb-1 max-sm:p-1.5">
-              <Icon size={14} />
-            </div>
-            <h3 className="text-lg font-semibold text-white sm:text-xl max-sm:text-sm">{project.title}</h3>
-            <p className={`project-desc-mobile-clamp mt-1 text-xs ${theme.description} max-sm:text-[11px] max-sm:leading-4 sm:text-sm`}>
-              {project.description}
-            </p>
-          </div>
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full border border-white/20 bg-white/10 p-2 transition hover:bg-white/20 max-sm:p-1.5"
-          >
-            <ArrowUpRight size={16} />
-          </a>
-        </div>
-
-        <div className="flex flex-wrap gap-1 text-xs max-sm:mt-0.5 sm:gap-2">
-          {project.tags.map((tag, tagIndex) => (
-            <Tag key={`${project.title}-${tag}`} className={tagIndex > 2 ? 'hidden sm:inline-flex' : ''}>
-              {tag}
-            </Tag>
-          ))}
-        </div>
-      </div>
-
-      <MotionDiv
-        className="pointer-events-none absolute -bottom-8 -right-8 h-44 w-44 rounded-full bg-white/15 blur-3xl"
-        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.65, 0.4] }}
-        transition={{ duration: 4.5, repeat: Infinity }}
-      />
-    </SpotlightCard>
-  );
-};
-
-const ExperienceItem = ({ role, company, date }) => (
-  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <div>
-      <p className="font-medium text-white">{role}</p>
-      <p className="text-sm text-slate-400">{company}</p>
-    </div>
-    <span className="secondary-btn w-fit px-3 py-1 text-xs text-slate-200">{date}</span>
-  </div>
-);
 
 export default App;
